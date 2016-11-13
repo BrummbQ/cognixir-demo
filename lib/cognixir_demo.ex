@@ -12,40 +12,39 @@ defmodule CognixirDemo.FoodOMat do
     end
 
     defp generate_name(tags) do
-        random_tags = Enum.filter(tags, fn(x) -> !String.contains?(x["name"], " ") end)
+        Enum.filter(tags, fn(x) -> !String.contains?(x["name"], " ") end)
             |> Enum.take_random(2)
-        Enum.map_join(random_tags, " ", &(&1["name"]))
+            |> Enum.map_join(" ", &(&1["name"]))
     end
 
-    defp print_result(result) do
+    defp food_score(tags) do
+        if Enum.empty?(tags) do
+            0
+        else
+            sum = Enum.reduce(tags, 0, fn(tag, acc) ->
+                acc + tag["confidence"]
+            end)
+            (sum / length(tags)) * 100 |> Float.ceil |> trunc
+        end
+    end
+
+    defp process_response(result, image) do
         description = result["description"]["captions"] |> hd |> Map.get("text")
         tags = result["tags"]
         food_tags = food_tags(tags)
         generated_name = generate_name(tags)
 
-        if Enum.empty?(food_tags) do
-            IO.puts "Don't eat that!"
-            IO.puts "I can see: \"#{description}\""
-            IO.puts "Menu name: \"#{generated_name}\" (if you want to eat it anyway)"
-        else
-            IO.puts "Yummy!"
-            IO.puts "You might enjoy: #{description}"
-            Enum.each(food_tags, fn(tag) ->
-                name = tag["name"]
-                confidence = tag["confidence"] * 100 |> Float.ceil |> trunc
-                IO.puts "#{name} (food score: #{confidence})"
-            end)
-            IO.puts "Menu name: \"#{generated_name}\""
-        end
+        CognixirDemo.Output.save_menu(image, generated_name, description, food_score(food_tags))
+        IO.puts("Written #{generated_name} to output dir")
     end
 
     def analyze_image(image) do
         options = %CV.AnalyzeOptions{visualFeatures: "Color,Categories,Tags,Description"}
         case CV.analyze_image(image, options) do
             { :ok, response } ->
-                print_result(response)
+                process_response(response, image)
             { :error, response } ->
-                IO.puts("unknown error :( (#{response})")
+                IO.puts("Error analyzing image :( (#{response})")
         end
     end
 end

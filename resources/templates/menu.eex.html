@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Menu</title>
+    <meta name="description" content="Your meal">
+    <meta name="author" content="FoodOMat">
+
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <h1>Your menu today: <%= title %></h1>
+    <p>
+        <%=
+        if food_score == 0 do
+            "Don't eat that!"
+        else
+            "Yummy!"
+        end
+        %>
+    </p>
+    <img src="<%= img_path %>"></img>
+    <p>
+        <%= description %>
+    </p>
+</body>
+
+</html>

@@ -3,12 +3,12 @@ defmodule CognixirDemoTest do
   doctest CognixirDemo
 
   test "positive food test" do
-      file_content = File.read!("resources/banana.jpg")
+      file_content = File.read!("resources/img/banana.jpg")
       CognixirDemo.FoodOMat.analyze_image(file_content)
   end
 
   test "negative food test" do
-      file_content = File.read!("resources/stone.jpg")
+      file_content = File.read!("resources/img/stone.jpg")
       CognixirDemo.FoodOMat.analyze_image(file_content)
   end
 end
