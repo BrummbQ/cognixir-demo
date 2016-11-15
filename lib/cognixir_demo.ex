@@ -36,6 +36,7 @@ defmodule CognixirDemo.FoodOMat do
 
         CognixirDemo.Output.save_menu(image, generated_name, description, food_score(food_tags))
         IO.puts("Written #{generated_name} to output dir")
+        IO.inspect tags
     end
 
     def analyze_image(image) do

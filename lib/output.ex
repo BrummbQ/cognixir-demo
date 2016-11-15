@@ -11,6 +11,8 @@ defmodule CognixirDemo.Output do
 
     defp prepare do
         File.mkdir(@dir)
+        File.copy(Path.join(["resources", "templates", "concise.min.css"]), Path.join(@dir, "concise.min.css"))
+        File.copy(Path.join(["resources", "templates", "style.css"]), Path.join(@dir, "style.css"))
     end
 
     def save_menu(image, title, description, food_score) do
