@@ -6,7 +6,6 @@ defmodule CardReader do
             word["text"]
         end)
 
-        # IO.inspect line_text
         # look for single tokens
         Enum.each(line_text, fn(text) ->
             if String.contains?(text, "@") do
@@ -21,7 +20,7 @@ defmodule CardReader do
         # now check entire line
         if Enum.count(line_text) > 1 do
             joined_text = Enum.join(line_text, " ") |> String.trim
-            if String.match?(joined_text, ~r/^[\p{L} ]+$/) do
+            if String.match?(joined_text, ~r/^[\p{L}\. ]+$/) do
                 IO.puts "Potential name or title: #{joined_text}"
             end
 
