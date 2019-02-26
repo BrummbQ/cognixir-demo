@@ -6,4 +6,4 @@ Basically this app takes preferably images and analyzes them with the Computer V
 
 ## Usage
 
-Check out this repository and install all required dependencies with hex. Then you can run `mix test` to see some examples.
+Check out this repository and install all required dependencies with hex. You should also obtain the api keys from your azure account and create a `test.exs` file (an example config is provided). Then you can run `mix test` to see some examples. It should output a html file in `/output`
